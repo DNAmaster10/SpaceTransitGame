@@ -1,4 +1,4 @@
-package com.dnamaster10.objects;
+package com.dnamaster10.objects.space;
 
 import com.dnamaster10.Drawable;
 import com.dnamaster10.Tickable;
@@ -17,6 +17,17 @@ public class SolarSystem implements Tickable, Drawable {
         this.rootBody = rootBody;
         orbitSystem = new OrbitSystem(rootBody);
         orbitalBodies.add(rootBody);
+    }
+
+    public void setRootBody(OrbitalBody rootBody) {
+        this.rootBody = rootBody;
+    }
+
+    public void addOrbitalBody(OrbitalBody rootBody, OrbitalBody satelliteBody) {
+        if (!orbitalBodies.contains(satelliteBody)) {
+            orbitalBodies.add(satelliteBody);
+        }
+        orbitSystem.addOrbitalBody(rootBody, satelliteBody);
     }
 
     public void generate() {

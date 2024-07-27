@@ -1,4 +1,4 @@
-package com.dnamaster10.objects;
+package com.dnamaster10.objects.space;
 
 import com.dnamaster10.Drawable;
 import com.dnamaster10.Window;

@@ -3,6 +3,7 @@ package com.dnamaster10;
 import com.dnamaster10.scenes.MainGame;
 import com.raylib.java.Raylib;
 
+import static com.raylib.java.Config.ConfigFlag.*;
 import static com.raylib.java.core.Color.BLACK;
 
 public class Main {
@@ -10,6 +11,11 @@ public class Main {
 
         Raylib rl = Window.getWindow();
         rl.core.SetTargetFPS(60);
+        rl.core.SetWindowMinSize(100, 100);
+        rl.core.SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+        rl.core.SetConfigFlags(FLAG_WINDOW_UNDECORATED);
+
+
         Scene mainGame = new MainGame();
 
         //Initialize frame time for use with getFrameTime()

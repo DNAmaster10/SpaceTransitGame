@@ -3,8 +3,8 @@ package com.dnamaster10.systems;
 import com.dnamaster10.Drawable;
 import com.dnamaster10.Tickable;
 import com.dnamaster10.Window;
-import com.dnamaster10.objects.Orbit;
-import com.dnamaster10.objects.OrbitalBody;
+import com.dnamaster10.objects.space.Orbit;
+import com.dnamaster10.objects.space.OrbitalBody;
 import com.raylib.java.Raylib;
 
 import java.util.ArrayList;

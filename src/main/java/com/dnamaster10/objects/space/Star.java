@@ -1,11 +1,9 @@
-package com.dnamaster10.objects;
+package com.dnamaster10.objects.space;
 
 import com.dnamaster10.Window;
 import com.raylib.java.Raylib;
 import com.raylib.java.core.Color;
 import com.raylib.java.raymath.Vector2;
-
-import static com.raylib.java.core.Color.GREEN;
 
 public class Star extends OrbitalBody {
     static Raylib rl = Window.getWindow();
@@ -13,7 +11,7 @@ public class Star extends OrbitalBody {
     Color color;
 
 
-    public Star(Vector2 location, float mass, int age) {
+    public Star(float mass, int age) {
         float size = 0;
         this.age = age;
 
@@ -38,7 +36,7 @@ public class Star extends OrbitalBody {
             this.color = new Color(0, 0, 0, 255);
         }
 
-        super.setLocation(location);
+        super.setLocation(new Vector2(0f, 0f));
         super.size = size;
         super.mass = 0.01f;
     }

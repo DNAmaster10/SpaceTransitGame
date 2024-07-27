@@ -1,7 +1,7 @@
-package com.dnamaster10.objects;
+package com.dnamaster10.objects.space;
 
 import com.dnamaster10.Tickable;
-import com.dnamaster10.Util;
+import com.dnamaster10.util.MathUtils;
 import com.dnamaster10.Window;
 
 public class Orbit implements Tickable {
@@ -17,7 +17,7 @@ public class Orbit implements Tickable {
         double dx = Math.abs(rootBody.getX() - satelliteBody.getX());
         double dy = Math.abs(rootBody.getY() - satelliteBody.getY());
         this.radius = Math.sqrt((dx * dx) + (dy * dy));
-        this.speed = Util.getOrbitalVelocity(rootBody.getMass(), radius);
+        this.speed = MathUtils.getOrbitalVelocity(rootBody.getMass(), radius);
     }
 
     @Override
