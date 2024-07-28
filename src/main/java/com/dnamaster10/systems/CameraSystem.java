@@ -10,7 +10,7 @@ public class CameraSystem implements Tickable {
     private static final Raylib rl = Window.getWindow();
     Camera2D camera = new Camera2D();
     float velocity = 0f;
-    float maxZoomOut = 1f;
+    float maxZoomOut = 0.5f;
     float maxZoomIn = 5f;
 
     public CameraSystem() {

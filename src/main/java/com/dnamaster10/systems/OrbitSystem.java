@@ -31,6 +31,7 @@ public class OrbitSystem implements Tickable, Drawable {
             orbits.put(rootBody, new ArrayList<>());
         }
         orbits.get(rootBody).add(orbit);
+        orbitsList.add(orbit);
     }
 
     @Override

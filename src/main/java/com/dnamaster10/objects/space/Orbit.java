@@ -3,6 +3,7 @@ package com.dnamaster10.objects.space;
 import com.dnamaster10.Tickable;
 import com.dnamaster10.util.MathUtils;
 import com.dnamaster10.Window;
+import com.raylib.java.raymath.Vector2;
 
 public class Orbit implements Tickable {
     OrbitalBody centerBody;
@@ -36,6 +37,10 @@ public class Orbit implements Tickable {
 
     public double getRadius() {
         return this.radius;
+    }
+
+    public Vector2 getCenter() {
+        return this.centerBody.getLocation();
     }
 
     public double getX() {

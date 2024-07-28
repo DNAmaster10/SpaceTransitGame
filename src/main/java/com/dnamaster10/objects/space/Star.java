@@ -36,9 +36,8 @@ public class Star extends OrbitalBody {
             this.color = new Color(0, 0, 0, 255);
         }
 
-        super.setLocation(new Vector2(0f, 0f));
-        super.size = size;
-        super.mass = 0.01f;
+        super.setSize(size);
+        super.setMass(0.01f);
     }
 
     @Override

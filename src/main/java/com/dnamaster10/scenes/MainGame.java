@@ -4,6 +4,7 @@ import com.dnamaster10.Scene;
 import com.dnamaster10.Window;
 import com.dnamaster10.objects.space.SolarSystem;
 import com.dnamaster10.objects.space.Star;
+import com.dnamaster10.objects.space.SystemGenerator;
 import com.dnamaster10.systems.CameraSystem;
 import com.raylib.java.Raylib;
 import com.raylib.java.raymath.Vector2;
@@ -12,23 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.raylib.java.core.Color.*;
+import static com.raylib.java.core.input.Keyboard.KEY_SPACE;
 
 public class MainGame implements Scene {
-    public static final float GRAVITY_CONSTANT = 0.0001f;
+    public static final float GRAVITY_CONSTANT = 0.0009f;
     static Raylib rl = Window.getWindow();
-    Star rootBody = new Star(new Vector2(500f, 500f), 200, 400);
-    SolarSystem solarSystem = new SolarSystem(rootBody);
     CameraSystem cameraSystem = new CameraSystem();
 
-    public void generate() {
-        solarSystem.generate();
-    }
+    SolarSystem solarSystem = new SystemGenerator().getRandomSolarSystem();
 
-    List<Star> stars = new ArrayList<>();
     @Override
     public void tick() {
         cameraSystem.tick();
         solarSystem.tick();
+
+        if (rl.core.IsKeyPressed(KEY_SPACE)) {
+            solarSystem = new SystemGenerator().getRandomSolarSystem();
+        }
     }
 
     @Override
@@ -38,7 +39,7 @@ public class MainGame implements Scene {
         rl.core.BeginMode2D(cameraSystem.getCamera());
         solarSystem.draw();
         rl.core.EndMode2D();
-        rl.text.DrawText("Zoom: " + cameraSystem.getCamera().getZoom(), 10, 10, 50, WHITE);
+        rl.text.DrawFPS(10, 10);
         rl.core.EndDrawing();
     }
 }

@@ -30,28 +30,6 @@ public class SolarSystem implements Tickable, Drawable {
         orbitSystem.addOrbitalBody(rootBody, satelliteBody);
     }
 
-    public void generate() {
-        Planet planet1 = new Planet(Planet.PlanetType.ROCK, new Vector2(600f, 500f));
-        Planet planet2 = new Planet(Planet.PlanetType.WATER, new Vector2(700f, 500f));
-        Moon moon1 = new Moon(Moon.MoonType.IRON, new Vector2(750f, 500f));
-        Moon moon2 = new Moon(Moon.MoonType.ROCKY, new Vector2(765f, 500f));
-        Planet planet3 = new Planet(Planet.PlanetType.ROCK, new Vector2(850f, 550f));
-        Moon moon3 = new Moon(Moon.MoonType.IRON, new Vector2(850f, 570f));
-
-        orbitSystem.addOrbitalBody(rootBody, planet1);
-        orbitSystem.addOrbitalBody(rootBody, planet2);
-        orbitSystem.addOrbitalBody(planet2, moon1);
-        orbitSystem.addOrbitalBody(planet2, moon2);
-        orbitSystem.addOrbitalBody(rootBody, planet3);
-        orbitSystem.addOrbitalBody(planet3, moon3);
-
-        orbitalBodies.add(planet1);
-        orbitalBodies.add(planet2);
-        orbitalBodies.add(moon1);
-        orbitalBodies.add(moon2);
-        orbitalBodies.add(planet3);
-        orbitalBodies.add(moon3);
-    }
 
     @Override
     public void draw() {
