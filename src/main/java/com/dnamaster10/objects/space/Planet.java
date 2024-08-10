@@ -1,16 +1,15 @@
 package com.dnamaster10.objects.space;
 
-import com.dnamaster10.Drawable;
 import com.dnamaster10.Window;
+import com.dnamaster10.objects.SystemObject;
 import com.raylib.java.Raylib;
 import com.raylib.java.core.Color;
-import com.raylib.java.raymath.Vector2;
 
 import java.util.Random;
 
 import static com.raylib.java.core.Color.*;
 
-public class Planet extends OrbitalBody implements Drawable {
+public class Planet extends OrbitalBody implements SystemObject {
     static Raylib rl = Window.getWindow();
     public enum PlanetType {
         WATER,
@@ -18,10 +17,13 @@ public class Planet extends OrbitalBody implements Drawable {
         GAS
     }
 
+    //References
+    SolarSystem system;
+
     Color color;
 
     private static final Random random = new Random();
-    public Planet(PlanetType planetType) {
+    public Planet(PlanetType planetType, SolarSystem system) {
         if (planetType == PlanetType.WATER) {
             this.color = BLUE;
             this.setSize(random.nextFloat(10f, 20f));
@@ -35,10 +37,16 @@ public class Planet extends OrbitalBody implements Drawable {
             this.setSize(random.nextFloat(50f, 80f));
             this.setMass((getSize() / 1000f) * 0.8f);
         }
+        this.system = system;
     }
 
     @Override
     public void draw() {
-        rl.shapes.DrawCircleV(getLocation(), getSize(), color);
+        rl.shapes.DrawCircleV(getPosition(), getSize(), color);
+    }
+
+    @Override
+    public SolarSystem getSystem() {
+        return this.system;
     }
 }

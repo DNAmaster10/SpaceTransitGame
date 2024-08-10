@@ -6,14 +6,14 @@ import com.raylib.java.Raylib;
 import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.raymath.Vector2;
 
-public class CameraSystem implements Tickable {
+public class CameraManager implements Tickable {
     private static final Raylib rl = Window.getWindow();
     Camera2D camera = new Camera2D();
     float velocity = 0f;
     float maxZoomOut = 0.5f;
     float maxZoomIn = 5f;
 
-    public CameraSystem() {
+    public CameraManager() {
         camera.setOffset(new Vector2(0f, 0f));
         camera.setZoom(0f);
     }

@@ -2,45 +2,53 @@ package com.dnamaster10.objects.space;
 
 import com.dnamaster10.Drawable;
 import com.dnamaster10.Tickable;
-import com.dnamaster10.systems.OrbitSystem;
-import com.raylib.java.raymath.Vector2;
+import com.dnamaster10.Window;
+import com.dnamaster10.systems.OrbitManager;
+import com.dnamaster10.systems.ShaderManager;
+import com.raylib.java.Raylib;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SolarSystem implements Tickable, Drawable {
-    OrbitalBody rootBody;
-    OrbitSystem orbitSystem;
-    List<OrbitalBody> orbitalBodies = new ArrayList<>();
+    Raylib rl = Window.getWindow();
 
-    public SolarSystem(OrbitalBody rootBody) {
-        this.rootBody = rootBody;
-        orbitSystem = new OrbitSystem(rootBody);
-        orbitalBodies.add(rootBody);
-    }
+    Star rootStar;
+    OrbitManager orbitManager;
+    List<Star> stars = new ArrayList<>();
+    List<Planet> planets = new ArrayList<>();
+    List<Moon> moons = new ArrayList<>();
 
-    public void setRootBody(OrbitalBody rootBody) {
-        this.rootBody = rootBody;
+    public void setRootStar(Star star) {
+        this.rootStar = star;
+        orbitManager = new OrbitManager(star);
+        stars.add(star);
     }
 
     public void addOrbitalBody(OrbitalBody rootBody, OrbitalBody satelliteBody) {
-        if (!orbitalBodies.contains(satelliteBody)) {
-            orbitalBodies.add(satelliteBody);
-        }
-        orbitSystem.addOrbitalBody(rootBody, satelliteBody);
+        orbitManager.addOrbitalBody(rootBody, satelliteBody);
+
+        if (satelliteBody instanceof Star s) stars.add(s);
+        else if (satelliteBody instanceof Planet p) planets.add(p);
+        else if (satelliteBody instanceof Moon m) moons.add(m);
     }
 
 
     @Override
     public void draw() {
-        orbitSystem.draw();
-        for (OrbitalBody orbitalBody : orbitalBodies) {
-            orbitalBody.draw();
-        }
+        orbitManager.draw();
+
+        rl.core.BeginShaderMode(ShaderManager.STAR_SHADER);
+        for (Star star : stars) star.draw();
+        rl.core.EndShaderMode();
+
+
+        for (Planet planet : planets) planet.draw();
+        for (Moon moon : moons) moon.draw();
     }
 
     @Override
     public void tick() {
-        orbitSystem.tick();
+        orbitManager.tick();
     }
 }

@@ -23,12 +23,14 @@ public class Orbit implements Tickable {
 
     @Override
     public void tick() {
-        orbitalAngle += (speed / Window.getWindow().core.GetFrameTime());
+        orbitalAngle += (speed * Window.getWindow().core.GetFrameTime());
         while (orbitalAngle > 360) {
             orbitalAngle = orbitalAngle - 360;
         }
-        satelliteBody.setX(centerBody.getX() + (float) (Math.cos(orbitalAngle) * radius));
-        satelliteBody.setY(centerBody.getY() + (float) (Math.sin(orbitalAngle) * radius));
+        float orbitalRadians = (float) Math.toRadians(orbitalAngle);
+
+        satelliteBody.setX(centerBody.getX() + (float) (Math.cos(orbitalRadians) * radius));
+        satelliteBody.setY(centerBody.getY() + (float) (Math.sin(orbitalRadians) * radius));
     }
 
     public OrbitalBody getSatelliteBody() {
@@ -37,10 +39,6 @@ public class Orbit implements Tickable {
 
     public double getRadius() {
         return this.radius;
-    }
-
-    public Vector2 getCenter() {
-        return this.centerBody.getLocation();
     }
 
     public double getX() {

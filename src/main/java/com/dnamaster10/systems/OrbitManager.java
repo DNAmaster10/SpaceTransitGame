@@ -13,15 +13,15 @@ import java.util.List;
 
 import static com.raylib.java.core.Color.WHITE;
 
-public class OrbitSystem implements Tickable, Drawable {
+public class OrbitManager implements Tickable, Drawable {
     Raylib rl = Window.getWindow();
-    static boolean drawOrbits = true;
+    static boolean drawOrbits = false;
 
     OrbitalBody rootBody;
     List<Orbit> orbitsList = new ArrayList<>();
     HashMap<OrbitalBody, List<Orbit>> orbits = new HashMap<>();
 
-    public OrbitSystem(OrbitalBody rootBody) {
+    public OrbitManager(OrbitalBody rootBody) {
         this.rootBody = rootBody;
     }
 

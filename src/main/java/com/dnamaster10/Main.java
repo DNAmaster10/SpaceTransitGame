@@ -3,11 +3,13 @@ package com.dnamaster10;
 import com.dnamaster10.scenes.MainGame;
 import com.raylib.java.Raylib;
 
+import java.io.IOException;
+
 import static com.raylib.java.Config.ConfigFlag.*;
 import static com.raylib.java.core.Color.BLACK;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Raylib rl = Window.getWindow();
         rl.core.SetTargetFPS(60);

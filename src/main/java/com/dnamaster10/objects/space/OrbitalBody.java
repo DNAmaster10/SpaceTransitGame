@@ -1,35 +1,37 @@
 package com.dnamaster10.objects.space;
 
 import com.dnamaster10.Drawable;
+import com.dnamaster10.objects.Positionable;
+import com.dnamaster10.objects.SystemObject;
 import com.raylib.java.raymath.Vector2;
 
-public abstract class OrbitalBody implements Drawable {
-    Vector2 location = new Vector2();
+public abstract class OrbitalBody implements Drawable, Positionable {
+    Vector2 position = new Vector2();
     float mass;
     float size;
 
     public float getX() {
-        return location.getX();
+        return position.getX();
     }
 
     public float getY() {
-        return location.getY();
+        return position.getY();
     }
 
     public void setX(float x) {
-        location.setX(x);
+        position.setX(x);
     }
 
     public void setY(float y) {
-        location.setY(y);
+        position.setY(y);
     }
 
-    public void setLocation(Vector2 location) {
-        this.location = location;
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 
-    public Vector2 getLocation() {
-        return this.location;
+    public Vector2 getPosition() {
+        return this.position;
     }
 
     public void setMass(float mass) {
