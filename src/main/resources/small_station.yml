@@ -1,0 +1,23 @@
+texture:
+  file: "station.png"
+  sourceRec:
+    x: 0
+    y: 0
+    width: 99
+    height: 99
+  drawRec:
+    width: 50
+    height: 50
+docks:
+  - type: SMALL
+    relPosition:
+      x: -23
+      y: 0
+  - type: SMALL
+    relPosition:
+      x: 20
+      y: 21
+  - type: SMALL
+    relPosition:
+      x: 6
+      y: -22

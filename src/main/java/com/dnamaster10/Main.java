@@ -1,6 +1,6 @@
 package com.dnamaster10;
 
-import com.dnamaster10.scenes.MainGame;
+import com.dnamaster10.scenes.SystemScene;
 import com.raylib.java.Raylib;
 
 import java.io.IOException;
@@ -17,8 +17,7 @@ public class Main {
         rl.core.SetConfigFlags(FLAG_WINDOW_RESIZABLE);
         rl.core.SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 
-
-        Scene mainGame = new MainGame();
+        Scene mainGame = new SystemScene();
 
         //Initialize frame time for use with getFrameTime()
         rl.core.BeginDrawing();

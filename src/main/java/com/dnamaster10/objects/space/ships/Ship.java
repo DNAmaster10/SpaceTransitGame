@@ -5,16 +5,19 @@ import com.dnamaster10.Tickable;
 import com.dnamaster10.Window;
 import com.dnamaster10.objects.Positionable;
 import com.dnamaster10.objects.space.SolarSystem;
-import com.dnamaster10.objects.space.stations.Station;
+import com.dnamaster10.objects.space.ships.pathfinding.SystemWaypoint;
+import com.dnamaster10.objects.space.ships.pathfinding.Waypoint;
+import com.dnamaster10.objects.space.stations.Dock;
 import com.raylib.java.Raylib;
 import com.raylib.java.raymath.Raymath;
 import com.raylib.java.raymath.Vector2;
 
 import static com.raylib.java.core.Color.RED;
 import static com.raylib.java.core.Color.WHITE;
+import static com.raylib.java.core.input.Mouse.MouseButton.MOUSE_BUTTON_LEFT;
 
 public class Ship implements Tickable, Drawable, Positionable {
-    private Raylib rl = Window.getWindow();
+    private final Raylib rl = Window.getWindow();
 
     //References
     SolarSystem currentSystem;
@@ -24,13 +27,14 @@ public class Ship implements Tickable, Drawable, Positionable {
     float goalRotation = 0f;
 
     Vector2 position;
-    Float speed = 0f;
-    Positionable goal;
+    Float speed = 10f;
     float maxAcceleration = 50f;
     float maxDeceleration = 100f;
 
-    Station destination;
+    //Pathfinding
+    Route route = new Route(this);
     boolean docked = false;
+    Dock currentDock = null;
 
     Vector2 goalLineEnd = new Vector2(0f, 0f);
     Vector2 rotationLineEnd = new Vector2(0f, 0f);
@@ -45,58 +49,31 @@ public class Ship implements Tickable, Drawable, Positionable {
         rl.shapes.DrawCircleV(position, 10, WHITE);
         rl.shapes.DrawLineV(position, goalLineEnd, WHITE);
         rl.shapes.DrawLineV(position, rotationLineEnd, RED);
-        rl.text.DrawText("Position: " + position.getX() + "," + position.getY(), 10, 0, 20, WHITE);
-        rl.text.DrawText("Current Rotation: " + rotation, 10, 50, 20, WHITE);
-        rl.text.DrawText("Goal Rotation: " + goalRotation, 10, 100, 20, WHITE);
-        rl.text.DrawText("Rotation Line: " + rotationLineEnd.getX() + "," + rotationLineEnd.getY(), 10, 150, 20, WHITE);
-        rl.text.DrawText("Speed: " + speed, 10, 350, 20, WHITE);
+        route.draw();
     }
 
     @Override
     public void tick() {
-        Vector2 goalRotationVector = Raymath.Vector2MoveTowards(position, goal, 1);
-        goalRotation = (float) Math.atan2(goalRotationVector.getY() - position.getY(), goalRotationVector.getX() - position.getX());
-        if (goalRotation < -Math.PI) goalRotation += (float) (2 * Math.PI);
-        else if (goalRotation >= Math.PI) rotation -= (float) (2 * Math.PI);
-
-        goalLineEnd.setX(position.getX() + (float) ((Math.cos(goalRotation) * 20)));
-        goalLineEnd.setY(position.getY() + (float) ((Math.sin(goalRotation) * 20)));
-
-        float deltaRotation = goalRotation - rotation;
-
-        if (Math.abs(deltaRotation) > 0.1f) {
-            if (deltaRotation < -Math.PI) deltaRotation += (float) (2 * Math.PI);
-            else if (deltaRotation >= Math.PI) deltaRotation -= (float) (2 * Math.PI);
-
-            if (deltaRotation > 0) rotation += 0.1f;
-            else rotation -= 0.1f;
+        if (rl.core.IsMouseButtonPressed(MOUSE_BUTTON_LEFT.ordinal())) {
+            Vector2 position = rl.core.GetScreenToWorld2D(rl.core.GetMousePosition(), getCameraManager().getCamera());
+            SystemWaypoint waypoint = new SystemWaypoint(position);
+            route.addWaypoint(waypoint);
         }
 
-        if (rotation < -Math.PI) rotation += (float) (2 * Math.PI);
-        else if (rotation >= Math.PI) rotation -= (float) (2 * Math.PI);
-
-        rotationLineEnd.setX(position.getX() + (float) (200 * Math.cos(rotation)));
-        rotationLineEnd.setY(position.getY() + (float) (200 * Math.sin(rotation)));
-
-        move();
+        if (docked) {
+            this.position = currentDock.getPosition();
+            return;
+        }
+        else if (route.completed()) return;
+        Waypoint nextWaypoint = route.getNext();
+        position = Raymath.Vector2MoveTowards(position, nextWaypoint.getPosition(), 10f);
+        if (nextWaypoint.hasReached(position)) {
+            route.tick();
+        }
     }
 
     private void move() {
-        float distance = Raymath.Vector2Distance(position, goal);
-        if (distance < 1) {
-            speed = 0f;
-            return;
-        }
-        float stoppingDistance = (speed * speed) / (2 * maxDeceleration);
 
-        if (stoppingDistance >= distance) {
-            speed -= maxDeceleration * rl.core.GetFrameTime();
-            if (speed < 0f) speed = 0f;
-        } else {
-            speed += maxAcceleration * rl.core.GetFrameTime();
-        }
-
-        position = Raymath.Vector2MoveTowards(position, goal, speed * rl.core.GetFrameTime());
     }
 
     public Vector2 getPosition() {

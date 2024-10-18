@@ -3,8 +3,10 @@ package com.dnamaster10.objects.space;
 import com.dnamaster10.Drawable;
 import com.dnamaster10.Tickable;
 import com.dnamaster10.Window;
+import com.dnamaster10.objects.space.stations.Station;
 import com.dnamaster10.systems.OrbitManager;
 import com.dnamaster10.systems.ShaderManager;
+import com.dnamaster10.systems.StationManager;
 import com.raylib.java.Raylib;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class SolarSystem implements Tickable, Drawable {
 
     Star rootStar;
     OrbitManager orbitManager;
+    StationManager stationManager = new StationManager();
     List<Star> stars = new ArrayList<>();
     List<Planet> planets = new ArrayList<>();
     List<Moon> moons = new ArrayList<>();
@@ -31,6 +34,7 @@ public class SolarSystem implements Tickable, Drawable {
         if (satelliteBody instanceof Star s) stars.add(s);
         else if (satelliteBody instanceof Planet p) planets.add(p);
         else if (satelliteBody instanceof Moon m) moons.add(m);
+        else if (satelliteBody instanceof Station s) stationManager.addStation(s);
     }
 
 
@@ -42,13 +46,14 @@ public class SolarSystem implements Tickable, Drawable {
         for (Star star : stars) star.draw();
         rl.core.EndShaderMode();
 
-
         for (Planet planet : planets) planet.draw();
         for (Moon moon : moons) moon.draw();
+        for (Station station : stationManager.getStations()) station.draw();
     }
 
     @Override
     public void tick() {
         orbitManager.tick();
+        stationManager.tick();
     }
 }

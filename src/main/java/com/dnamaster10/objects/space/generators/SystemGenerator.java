@@ -1,6 +1,7 @@
 package com.dnamaster10.objects.space.generators;
 
 import com.dnamaster10.objects.space.*;
+import com.dnamaster10.objects.space.stations.Station;
 import com.raylib.java.raymath.Vector2;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class SystemGenerator {
         OrbitalBody lastBody = star;
         for (int i = 1; i < totalPlanets + 1; i++) {
             Planet planet = new Planet(getRandomPlanetType(), system);
-            float y = lastBody.getY() + lastBody.getSize() + planet.getSize() + 100f + random.nextFloat(0f, 300f);
+            float y = lastBody.getY() + lastBody.getSize() + planet.getSize() + 1000f + random.nextFloat(0f, 300f);
             Vector2 planetLocation = new Vector2(0f, y);
             planet.setPosition(planetLocation);
             planets.add(planet);
@@ -40,7 +41,7 @@ public class SystemGenerator {
             lastBody = planet;
             while (random.nextInt(0, 100) > 80) {
                 Moon moon = new Moon(getRandomMoonType(), system);
-                float y = lastBody.getY() + lastBody.getSize() + moon.getSize() + 20f + random.nextFloat(0f, 50f);
+                float y = lastBody.getY() + lastBody.getSize() + moon.getSize() + 30f + random.nextFloat(0f, 50f);
                 Vector2 moonLocation = new Vector2(0f, y);
                 moon.setPosition(moonLocation);
                 lastBody = moon;
@@ -48,6 +49,21 @@ public class SystemGenerator {
             }
         }
 
+        //Generate stations
+        for (Planet planet : planets) {
+            while (random.nextInt(0, 100) > 80) {
+                Station station = StationGenerator.getNewStation(StationGenerator.StationType.SMALL);
+                station.setSystem(system);
+
+
+
+                float y = planet.getY() + planet.getSize() + 20f + random.nextFloat(0f, 50f);
+                Vector2 stationLocation = new Vector2(0f, y);
+                station.setPosition(stationLocation);
+                system.addOrbitalBody(planet, station);
+                station.setCenterBody(planet);
+            }
+        }
         return system;
     }
 

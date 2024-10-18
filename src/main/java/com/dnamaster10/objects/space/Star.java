@@ -1,6 +1,8 @@
 package com.dnamaster10.objects.space;
 
+import com.dnamaster10.Drawable;
 import com.dnamaster10.Window;
+import com.dnamaster10.objects.Positionable;
 import com.dnamaster10.objects.SystemObject;
 import com.dnamaster10.systems.ShaderManager;
 import com.raylib.java.Raylib;
@@ -11,7 +13,7 @@ import com.raylib.java.rlgl.RLGL;
 import static com.raylib.java.core.Color.WHITE;
 import static com.raylib.java.core.rCore.SetShaderValueV;
 
-public class Star extends OrbitalBody implements SystemObject {
+public class Star  implements SystemObject, OrbitalBody, Drawable, Positionable {
     static Raylib rl = Window.getWindow();
 
     //References
@@ -21,6 +23,10 @@ public class Star extends OrbitalBody implements SystemObject {
     Color color;
     private final float[] colorArray;
     Vector2 drawOrigin;
+
+    Vector2 position = new Vector2();
+    float size;
+    float mass;
 
     public Star(float mass, int age, SolarSystem system) {
         float size = 0;
@@ -50,8 +56,8 @@ public class Star extends OrbitalBody implements SystemObject {
         colorArray = new float[]{color.getR() / 255f, color.getG() / 255f, color.getB() / 255f};
 
         drawOrigin = new Vector2(getX() - size, getY() - size);
-        super.setSize(size);
-        super.setMass(0.01f);
+        this.size = size;
+        this.mass = 0.01f;
 
         this.system = system;
     }
@@ -65,5 +71,56 @@ public class Star extends OrbitalBody implements SystemObject {
     @Override
     public SolarSystem getSystem() {
         return this.system;
+    }
+
+    @Override
+    public float getX() {
+        return position.x;
+    }
+
+    @Override
+    public float getY() {
+        return position.y;
+    }
+
+    @Override
+    public void setX(float x) {
+        position.x = x;
+    }
+
+    @Override
+    public void setY(float y) {
+        position.y = y;
+    }
+
+    @Override
+    public void setPosition(Vector2 position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    @Override
+    public void setMass(float mass) {
+        this.mass = mass;
+    }
+
+    @Override
+    public float getMass() {
+        return mass;
+    }
+
+    @Override
+    public void setSize(float size) {
+        this.size = size;
+    }
+
+    @Override
+    public float getSize() {
+        return size;
     }
 }
